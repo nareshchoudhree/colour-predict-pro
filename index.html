@@ -7,57 +7,72 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
         :root {
-            --primary: #1e40af;
-            --secondary: #1e3a8a;
-            --accent: #3b82f6;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --success: #10b981;
+            --primary: #4f46e5;
+            --secondary: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --info: #06b6d4;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            --dark: #1e293b;
+            --light: #f8fafc;
         }
         
         body {
-            background-color: #0f172a;
-            color: white;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            overflow-x: hidden;
         }
         
         .glass-effect {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transition: all 0.3s ease;
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.3s;
         }
         
         .btn-primary:hover {
+            background-color: #4338ca;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(30, 64, 175, 0.4);
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            background-color: var(--secondary);
+            color: white;
+            transition: all 0.3s;
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background-color: #0d9e6e;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-warning:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
         }
         
         .ball {
@@ -68,8 +83,10 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
         
         .ball:hover {
@@ -77,91 +94,89 @@
         }
         
         .ball.green {
+            background-color: #10b981;
             background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
         }
         
         .ball.red {
+            background-color: #ef4444;
             background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
         }
         
         .ball.violet {
+            background-color: #8b5cf6;
             background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: white;
         }
         
-        .tab-active {
-            position: relative;
-            color: var(--accent);
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
         }
         
-        .tab-active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
+        .history-table {
             width: 100%;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
+            border-collapse: collapse;
         }
         
-        .floating {
-            animation: floating 3s ease-in-out infinite;
+        .history-table th, .history-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
         }
         
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .history-table th {
+            background-color: #f8fafc;
+            font-weight: 600;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        .history-table tr:hover {
+            background-color: #f8fafc;
         }
         
         .modal {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
         }
         
         .modal-content {
-            background: #1e293b;
+            background-color: white;
+            padding: 2rem;
             border-radius: 10px;
-            padding: 20px;
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            transform: translateY(-50px);
-            opacity: 0;
-            animation: modalOpen 0.3s forwards;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-20px);
+            transition: transform 0.3s;
         }
         
-        @keyframes modalOpen {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
         
         .page {
             display: none;
-            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
         }
         
         @keyframes fadeIn {
@@ -169,1061 +184,2066 @@
             to { opacity: 1; }
         }
         
-        .active-page {
-            display: block;
+        .win-animation {
+            animation: winPulse 1s infinite;
         }
         
-        .history-item {
-            transition: all 0.3s ease;
-        }
-        
-        .history-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .wallet-card {
-            background: linear-gradient(135deg, #1e40af, #1e3a8a);
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .profile-avatar {
-            border: 3px solid var(--accent);
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-        
-        .countdown {
-            font-family: 'Digital', sans-serif;
-            font-size: 1.5rem;
-            color: #f59e0b;
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
-        }
-        
-        .auth-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-        
-        .auth-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-        
-        /* Custom styles for number balls */
-        .number-ball {
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .number-ball:hover {
-            transform: scale(1.05);
-        }
-        
-        .number-ball.green {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3));
-            border: 1px solid #10b981;
-        }
-        
-        .number-ball.red {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3));
-            border: 1px solid #ef4444;
-        }
-        
-        .number-ball.violet {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(124, 58, 237, 0.3));
-            border: 1px solid #8b5cf6;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Animation for winning result */
         @keyframes winPulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
         
-        .win-animation {
-            animation: winPulse 0.5s infinite;
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prediction-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prediction-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .prediction-btn.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .prediction-btn.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .prediction-btn.violet {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+        
+        .big-small-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+        
+        .big-small-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .big-small-btn.big {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .big-small-btn.small {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+        
+        .wallet-card {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transaction-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.3s;
+        }
+        
+        .transaction-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .deposit {
+            color: #10b981;
+        }
+        
+        .withdraw {
+            color: #ef4444;
+        }
+        
+        .win {
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .lose {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .input-field {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateX(200%);
+            transition: transform 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: var(--secondary);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning);
         }
     </style>
 </head>
-<body class="relative overflow-x-hidden">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
-        <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <h2 class="text-xl font-semibold text-blue-400">Loading Color Predict Pro...</h2>
-    </div>
-
+<body class="min-h-screen">
+    <!-- Notification System -->
+    <div id="notification" class="notification hidden"></div>
+    
     <!-- Auth Modal -->
     <div id="auth-modal" class="modal">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold" id="auth-modal-title">Login</h2>
-                <button id="close-auth" class="text-slate-400 hover:text-white">
+                <h2 class="text-2xl font-bold" id="auth-modal-title">Login</h2>
+                <button id="close-auth-modal" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <div id="login-form">
                 <div class="mb-4">
-                    <label class="block text-slate-400 text-sm mb-2">Username</label>
-                    <input type="text" id="login-username" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Enter username">
+                    <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="login-email" class="input-field" placeholder="Enter your email">
                 </div>
-                
                 <div class="mb-6">
-                    <label class="block text-slate-400 text-sm mb-2">Password</label>
-                    <input type="password" id="login-password" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Enter password">
+                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="login-password" class="input-field" placeholder="Enter your password">
                 </div>
-                
-                <button id="login-btn" class="w-full py-3 rounded-lg btn-primary font-bold mb-3">
-                    Login
-                </button>
-                
-                <div class="text-center text-slate-400 text-sm">
-                    Don't have an account? 
-                    <button id="show-register" class="text-blue-400 hover:underline">Register</button>
-                </div>
+                <button id="login-btn" class="btn-primary w-full py-2 mb-4">Login</button>
+                <p class="text-center text-sm text-gray-600">
+                    Don't have an account? <button id="show-register" class="text-primary-600 font-medium">Register</button>
+                </p>
             </div>
             
             <div id="register-form" class="hidden">
                 <div class="mb-4">
-                    <label class="block text-slate-400 text-sm mb-2">Username</label>
-                    <input type="text" id="register-username" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Choose username">
+                    <label for="register-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="register-name" class="input-field" placeholder="Enter your full name">
                 </div>
-                
                 <div class="mb-4">
-                    <label class="block text-slate-400 text-sm mb-2">Email</label>
-                    <input type="email" id="register-email" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Enter email">
+                    <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="register-email" class="input-field" placeholder="Enter your email">
                 </div>
-                
                 <div class="mb-4">
-                    <label class="block text-slate-400 text-sm mb-2">Password</label>
-                    <input type="password" id="register-password" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Choose password">
+                    <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="register-password" class="input-field" placeholder="Create a password">
                 </div>
-                
                 <div class="mb-6">
-                    <label class="block text-slate-400 text-sm mb-2">Confirm Password</label>
-                    <input type="password" id="register-confirm" class="w-full auth-input rounded-lg py-3 px-4" placeholder="Confirm password">
+                    <label for="register-confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" class="input-field" placeholder="Confirm your password">
                 </div>
-                
-                <button id="register-btn" class="w-full py-3 rounded-lg btn-primary font-bold mb-3">
-                    Register
-                </button>
-                
-                <div class="text-center text-slate-400 text-sm">
-                    Already have an account? 
-                    <button id="show-login" class="text-blue-400 hover:underline">Login</button>
-                </div>
+                <button id="register-btn" class="btn-primary w-full py-2 mb-4">Register</button>
+                <p class="text-center text-sm text-gray-600">
+                    Already have an account? <button id="show-login" class="text-primary-600 font-medium">Login</button>
+                </p>
             </div>
         </div>
     </div>
-
-    <!-- Main Container (shown after login) -->
-    <div id="main-container" class="hidden">
-        <div class="container mx-auto px-4 py-6 max-w-6xl">
-            <!-- Header -->
-            <header class="flex justify-between items-center mb-8">
+    
+    <!-- Bet Modal -->
+    <div id="bet-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Place Your Bet</h2>
+                <button id="close-bet-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <label for="bet-amount" class="block text-sm font-medium text-gray-700 mb-1">Bet Amount</label>
+                <input type="number" id="bet-amount" class="input-field" placeholder="Enter your bet amount" min="1">
+            </div>
+            
+            <h3 class="text-lg font-medium mb-2">Select Multiplier</h3>
+            <div class="grid grid-cols-3 gap-2 mb-6">
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="1">X1</button>
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="5">X5</button>
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="10">X10</button>
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="20">X20</button>
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="50">X50</button>
+                <button class="multiplier-btn py-2 rounded bg-gray-100 hover:bg-gray-200" data-multiplier="100">X100</button>
+            </div>
+            
+            <div class="flex gap-4">
+                <button id="confirm-bet" class="btn-primary flex-1 py-2">Confirm</button>
+                <button id="cancel-bet" class="btn-danger flex-1 py-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wallet Modal -->
+    <div id="wallet-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Wallet Transaction</h2>
+                <button id="close-wallet-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <label for="transaction-type" class="block text-sm font-medium text-gray-700 mb-1">Transaction Type</label>
+                <select id="transaction-type" class="input-field">
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
+                </select>
+            </div>
+            
+            <div class="mb-4">
+                <label for="transaction-amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                <input type="number" id="transaction-amount" class="input-field" placeholder="Enter amount" min="1">
+            </div>
+            
+            <div class="mb-6">
+                <label for="transaction-method" class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                <select id="transaction-method" class="input-field">
+                    <option value="credit_card">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                    <option value="crypto">Cryptocurrency</option>
+                </select>
+            </div>
+            
+            <div class="flex gap-4">
+                <button id="confirm-transaction" class="btn-primary flex-1 py-2">Confirm</button>
+                <button id="cancel-transaction" class="btn-danger flex-1 py-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Layout -->
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow-sm py-4 px-6">
+            <div class="container mx-auto flex justify-between items-center">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-3">
-                        <i class="fas fa-dice text-white text-xl"></i>
-                    </div>
-                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">ColorPredict Pro</h1>
+                    <i class="fas fa-dice text-2xl text-primary-600 mr-2"></i>
+                    <h1 class="text-2xl font-bold text-primary-600">Color Predict Pro</h1>
                 </div>
+                
                 <div class="flex items-center space-x-4">
-                    <div id="wallet-display" class="hidden md:flex items-center bg-blue-900/50 px-4 py-2 rounded-full">
-                        <i class="fas fa-wallet text-blue-300 mr-2"></i>
-                        <span class="font-medium">₹<span id="wallet-amount">5000</span></span>
+                    <div id="user-balance" class="hidden bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-wallet mr-1"></i>
+                        <span id="balance-amount">$0.00</span>
                     </div>
-                    <button id="profile-btn" class="w-10 h-10 rounded-full bg-blue-900/50 flex items-center justify-center">
-                        <i class="fas fa-user text-blue-300"></i>
+                    
+                    <button id="auth-btn" class="btn-primary px-4 py-2">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
                     </button>
-                    <button id="logout-btn" class="text-red-400 hover:text-red-300">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                    
+                    <div id="user-menu" class="hidden relative">
+                        <button id="user-menu-btn" class="flex items-center space-x-2">
+                            <img id="user-avatar" src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full">
+                            <span id="user-name" class="font-medium"></span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="profile-link">
+                                <i class="fas fa-user mr-2"></i> Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="wallet-link">
+                                <i class="fas fa-wallet mr-2"></i> Wallet
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-link">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </header>
-
-            <!-- Navigation -->
-            <nav class="flex justify-around mb-8 bg-slate-800/50 rounded-full p-1">
-                <button class="nav-btn py-2 px-4 rounded-full flex-1 text-center font-medium bg-blue-900/50 text-blue-400" data-page="home">
-                    <i class="fas fa-home mr-2"></i> Home
-                </button>
-                <button class="nav-btn py-2 px-4 rounded-full flex-1 text-center font-medium" data-page="game">
-                    <i class="fas fa-gamepad mr-2"></i> Play
-                </button>
-                <button class="nav-btn py-2 px-4 rounded-full flex-1 text-center font-medium" data-page="wallet">
-                    <i class="fas fa-wallet mr-2"></i> Wallet
-                </button>
-            </nav>
-
-            <!-- Pages -->
-            <main class="min-h-[60vh]">
-                <!-- Home Page -->
-                <div id="home-page" class="page active-page">
-                    <div class="glass-effect rounded-xl p-6 mb-6">
-                        <h2 class="text-xl font-bold mb-4">Welcome to ColorPredict Pro!</h2>
-                        <p class="text-slate-300 mb-4">Predict colors, win big rewards, and enjoy the thrill of the game. Start with ₹5000 bonus!</p>
-                        <div class="flex flex-wrap gap-4 mb-6">
-                            <div class="flex-1 min-w-[150px] bg-slate-800/50 rounded-lg p-4">
-                                <div class="text-blue-400 mb-2"><i class="fas fa-users text-xl"></i></div>
-                                <h3 class="font-semibold">10,000+ Players</h3>
-                                <p class="text-sm text-slate-400">Active community</p>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="bg-white shadow-sm">
+            <div class="container mx-auto px-6">
+                <div class="flex space-x-8">
+                    <a href="#" class="nav-link active" data-page="home">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    <a href="#" class="nav-link" data-page="game">
+                        <i class="fas fa-gamepad mr-2"></i> Play Game
+                    </a>
+                    <a href="#" class="nav-link" data-page="wallet">
+                        <i class="fas fa-wallet mr-2"></i> Wallet
+                    </a>
+                    <a href="#" class="nav-link" data-page="profile">
+                        <i class="fas fa-user mr-2"></i> Profile
+                    </a>
+                    <a href="#" class="nav-link" data-page="history">
+                        <i class="fas fa-history mr-2"></i> History
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-6">
+            <!-- Home Page -->
+            <div id="home-page" class="page active">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                    <div class="p-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white">
+                        <h2 class="text-2xl font-bold mb-2">Welcome to Color Predict Pro</h2>
+                        <p class="mb-4">The most exciting color prediction game with real cash prizes!</p>
+                        <button class="btn-secondary flex items-center" id="play-now-btn">
+                            <i class="fas fa-play mr-2"></i> Play Now
+                        </button>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-4">How to Play</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-3">
+                                    <i class="fas fa-1 text-primary-600"></i>
+                                </div>
+                                <h4 class="font-bold mb-2">Choose a Color</h4>
+                                <p class="text-gray-600">Predict whether the next number will be Red, Green or Violet</p>
                             </div>
-                            <div class="flex-1 min-w-[150px] bg-slate-800/50 rounded-lg p-4">
-                                <div class="text-green-400 mb-2"><i class="fas fa-rupee-sign text-xl"></i></div>
-                                <h3 class="font-semibold">₹50L+ Won</h3>
-                                <p class="text-sm text-slate-400">Total payouts</p>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-3">
+                                    <i class="fas fa-2 text-primary-600"></i>
+                                </div>
+                                <h4 class="font-bold mb-2">Place Your Bet</h4>
+                                <p class="text-gray-600">Set your bet amount and multiplier for bigger wins</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-3">
+                                    <i class="fas fa-3 text-primary-600"></i>
+                                </div>
+                                <h4 class="font-bold mb-2">Win Prizes</h4>
+                                <p class="text-gray-600">If your prediction is correct, you win based on your multiplier</p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="glass-effect rounded-xl p-6 mb-6">
-                        <h2 class="text-xl font-bold mb-4">How to Play</h2>
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <div class="bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1 flex-shrink-0">1</div>
-                                <p>Predict whether the next color will be <span class="text-green-400">Green</span>, <span class="text-red-400">Red</span>, or <span class="text-purple-400">Violet</span></p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Recent Winners</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">User123</p>
+                                        <p class="text-sm text-gray-500">Predicted Green</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-green-600">+$250</span>
                             </div>
-                            <div class="flex items-start">
-                                <div class="bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1 flex-shrink-0">2</div>
-                                <p>Place your bet amount and wait for the result</p>
+                            <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">LuckyPlayer</p>
+                                        <p class="text-sm text-gray-500">Predicted Violet</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-green-600">+$500</span>
                             </div>
-                            <div class="flex items-start">
-                                <div class="bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1 flex-shrink-0">3</div>
-                                <p>If your prediction is correct, you win according to the payout rate!</p>
+                            <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">BetMaster</p>
+                                        <p class="text-sm text-gray-500">Predicted Red</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-green-600">+$120</span>
                             </div>
                         </div>
                     </div>
-
-                    <button id="play-now-btn" class="w-full py-4 rounded-xl btn-primary font-bold text-lg flex items-center justify-center mt-4">
-                        <i class="fas fa-play mr-2"></i> PLAY NOW
-                    </button>
-                </div>
-
-                <!-- Game Page -->
-                <div id="game-page" class="page">
-                    <div class="glass-effect rounded-xl p-4 mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex space-x-2 overflow-x-auto pb-2">
-                                <button class="game-tab px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap" data-game="30sec">WinGo 30s</button>
-                                <button class="game-tab px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap" data-game="1min">WinGo 1m</button>
-                                <button class="game-tab px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap active-tab bg-blue-900/50 text-blue-400" data-game="3min">WinGo 3m</button>
-                                <button class="game-tab px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap" data-game="5min">WinGo 5m</button>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Game Statistics</h3>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Total Players</p>
+                                <p class="text-2xl font-bold">12,548</p>
                             </div>
-                            <button class="text-blue-400 text-sm flex items-center">
-                                <i class="fas fa-info-circle mr-1"></i> Rules
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Total Bets</p>
+                                <p class="text-2xl font-bold">1,245,789</p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                            <p class="text-sm text-gray-500">Total Winnings</p>
+                            <p class="text-2xl font-bold">$5,847,231</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-500">Biggest Win</p>
+                            <p class="text-2xl font-bold">$25,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Game Page -->
+            <div id="game-page" class="page">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                    <div class="p-4 bg-gray-50 border-b">
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-4">
+                                <button class="game-tab active" data-game="30sec">30 Seconds</button>
+                                <button class="game-tab" data-game="1min">1 Minute</button>
+                                <button class="game-tab" data-game="3min">3 Minutes</button>
+                                <button class="game-tab" data-game="5min">5 Minutes</button>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-500 mr-2">Round:</span>
+                                <span class="font-medium" id="round-number">20230517100051924</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex flex-col items-center mb-8">
+                            <div class="timer text-5xl font-bold mb-2" id="game-timer">00:30</div>
+                            <div class="text-sm text-gray-500">Next round starts in</div>
+                        </div>
+                        
+                        <div class="flex justify-center mb-8">
+                            <div class="ball green text-2xl w-20 h-20" id="current-number">-</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-8">
+                            <button class="prediction-btn green" data-type="color" data-value="green">
+                                <i class="fas fa-leaf mr-2"></i> GREEN
+                            </button>
+                            <button class="prediction-btn violet" data-type="color" data-value="violet">
+                                <i class="fas fa-gem mr-2"></i> VIOLET
+                            </button>
+                            <button class="prediction-btn red" data-type="color" data-value="red">
+                                <i class="fas fa-fire mr-2"></i> RED
                             </button>
                         </div>
-
-                        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="text-sm text-slate-400">Round ID: <span class="font-medium text-white">20240615123456</span></div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-clock text-yellow-400 mr-1"></i>
-                                    <span class="countdown font-bold">02:45</span>
+                        
+                        <div class="grid grid-cols-5 gap-2 mb-8">
+                            <div class="ball green" data-type="number" data-value="1">1</div>
+                            <div class="ball red" data-type="number" data-value="2">2</div>
+                            <div class="ball green" data-type="number" data-value="3">3</div>
+                            <div class="ball red" data-type="number" data-value="4">4</div>
+                            <div class="ball violet" data-type="number" data-value="5">5</div>
+                            <div class="ball red" data-type="number" data-value="6">6</div>
+                            <div class="ball green" data-type="number" data-value="7">7</div>
+                            <div class="ball red" data-type="number" data-value="8">8</div>
+                            <div class="ball green" data-type="number" data-value="9">9</div>
+                            <div class="ball violet" data-type="number" data-value="0">0</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <button class="big-small-btn big" data-type="bigsmall" data-value="big">
+                                <i class="fas fa-arrow-up mr-2"></i> BIG (5-9)
+                            </button>
+                            <button class="big-small-btn small" data-type="bigsmall" data-value="small">
+                                <i class="fas fa-arrow-down mr-2"></i> SMALL (0-4)
+                            </button>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold">Recent Results</h3>
+                                <div class="flex space-x-1">
+                                    <button class="px-2 py-1 text-xs bg-gray-200 rounded" id="show-colors">Colors</button>
+                                    <button class="px-2 py-1 text-xs bg-gray-200 rounded" id="show-numbers">Numbers</button>
                                 </div>
                             </div>
-
-                            <div class="flex justify-center space-x-2 mb-4">
-                                <div class="ball green pulse">7</div>
-                                <div class="ball green">9</div>
-                                <div class="ball red">2</div>
-                                <div class="ball green">3</div>
-                                <div class="ball red">8</div>
-                            </div>
-
-                            <div id="result-message" class="text-center py-2 rounded-lg mb-3 hidden">
-                                <!-- Will be filled by JS -->
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 mb-4">
-                            <button class="prediction-btn py-3 rounded-lg font-bold bg-green-600/30 border border-green-400 hover:bg-green-600/50" data-type="color" data-value="green">
-                                GREEN <span class="text-xs opacity-80">(x1.98)</span>
-                            </button>
-                            <button class="prediction-btn py-3 rounded-lg font-bold bg-purple-600/30 border border-purple-400 hover:bg-purple-600/50" data-type="color" data-value="violet">
-                                VIOLET <span class="text-xs opacity-80">(x4.5)</span>
-                            </button>
-                            <button class="prediction-btn py-3 rounded-lg font-bold bg-red-600/30 border border-red-400 hover:bg-red-600/50" data-type="color" data-value="red">
-                                RED <span class="text-xs opacity-80">(x1.98)</span>
-                            </button>
-                        </div>
-
-                        <div class="grid grid-cols-5 gap-2 mb-4">
-                            <div class="number-ball violet flex flex-col items-center justify-center py-2" data-type="number" data-value="0">
-                                <div>0</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball green flex flex-col items-center justify-center py-2" data-type="number" data-value="1">
-                                <div>1</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball red flex flex-col items-center justify-center py-2" data-type="number" data-value="2">
-                                <div>2</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball green flex flex-col items-center justify-center py-2" data-type="number" data-value="3">
-                                <div>3</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball red flex flex-col items-center justify-center py-2" data-type="number" data-value="4">
-                                <div>4</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball violet flex flex-col items-center justify-center py-2" data-type="number" data-value="5">
-                                <div>5</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball red flex flex-col items-center justify-center py-2" data-type="number" data-value="6">
-                                <div>6</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball green flex flex-col items-center justify-center py-2" data-type="number" data-value="7">
-                                <div>7</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball red flex flex-col items-center justify-center py-2" data-type="number" data-value="8">
-                                <div>8</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                            <div class="number-ball green flex flex-col items-center justify-center py-2" data-type="number" data-value="9">
-                                <div>9</div>
-                                <div class="text-xs opacity-70">x9</div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-2 mb-4">
-                            <button class="big-small-btn py-3 rounded-lg font-bold bg-blue-600/30 border border-blue-400 hover:bg-blue-600/50" data-type="bigsmall" data-value="big">
-                                BIG <span class="text-xs opacity-80">(x1.98)</span>
-                            </button>
-                            <button class="big-small-btn py-3 rounded-lg font-bold bg-blue-600/30 border border-blue-400 hover:bg-blue-600/50" data-type="bigsmall" data-value="small">
-                                SMALL <span class="text-xs opacity-80">(x1.98)</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="glass-effect rounded-xl p-4">
-                        <div class="flex border-b border-slate-700 mb-3">
-                            <button class="history-tab px-4 py-2 font-medium active-tab text-blue-400" data-tab="history">History</button>
-                            <button class="history-tab px-4 py-2 font-medium" data-tab="chart">Chart</button>
-                            <button class="history-tab px-4 py-2 font-medium" data-tab="strategy">Strategy</button>
-                        </div>
-
-                        <div id="history-content" class="history-tab-content active-tab-content">
-                            <div class="overflow-x-auto">
-                                <table class="w-full">
-                                    <thead>
-                                        <tr class="text-slate-400 text-left text-sm border-b border-slate-700">
-                                            <th class="pb-2">Period</th>
-                                            <th class="pb-2">Number</th>
-                                            <th class="pb-2">Big/Small</th>
-                                            <th class="pb-2">Color</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="history-body">
-                                        <!-- Filled by JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="chart-content" class="history-tab-content hidden">
-                            <div class="flex justify-center items-center h-40 text-slate-400">
-                                <i class="fas fa-chart-line text-4xl mr-3"></i>
-                                <span>Color Prediction Chart</span>
-                            </div>
-                        </div>
-
-                        <div id="strategy-content" class="history-tab-content hidden">
-                            <div class="flex justify-center items-center h-40 text-slate-400">
-                                <i class="fas fa-lightbulb text-4xl mr-3"></i>
-                                <span>Follow Winning Strategies</span>
+                            
+                            <div class="flex space-x-2 overflow-x-auto py-2" id="recent-results">
+                                <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Wallet Page -->
-                <div id="wallet-page" class="page">
-                    <div class="wallet-card p-6 mb-6">
-                        <div class="flex justify-between items-start mb-6">
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b">
+                        <div class="flex space-x-4">
+                            <button class="history-tab active" data-history="game">Game History</button>
+                            <button class="history-tab" data-history="chart">Chart</button>
+                            <button class="history-tab" data-history="strategy">Strategy</button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="history-table w-full">
+                                <thead>
+                                    <tr>
+                                        <th>Period</th>
+                                        <th>Number</th>
+                                        <th>Big/Small</th>
+                                        <th>Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-body">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wallet Page -->
+            <div id="wallet-page" class="page">
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div class="wallet-card">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-slate-300 text-sm mb-1">Total Balance</h3>
-                                <h2 class="text-3xl font-bold">₹<span id="wallet-balance">5000</span></h2>
+                                <p class="text-sm opacity-80">Current Balance</p>
+                                <h2 class="text-2xl font-bold" id="wallet-balance">$0.00</h2>
                             </div>
-                            <div class="bg-blue-400/20 p-2 rounded-lg">
-                                <i class="fas fa-wallet text-blue-300 text-xl"></i>
-                            </div>
+                            <i class="fas fa-wallet text-2xl opacity-70"></i>
                         </div>
-                        <div class="flex justify-between">
-                            <button class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium flex items-center">
-                                <i class="fas fa-plus mr-1"></i> Deposit
+                        <div class="flex space-x-2">
+                            <button id="deposit-btn" class="btn-secondary flex-1 py-2">
+                                <i class="fas fa-plus mr-2"></i> Deposit
                             </button>
-                            <button class="bg-slate-800/50 hover:bg-slate-700/50 px-4 py-2 rounded-lg text-sm font-medium flex items-center">
-                                <i class="fas fa-exchange-alt mr-1"></i> Withdraw
+                            <button id="withdraw-btn" class="btn-warning flex-1 py-2">
+                                <i class="fas fa-minus mr-2"></i> Withdraw
                             </button>
                         </div>
                     </div>
-
-                    <div class="glass-effect rounded-xl p-6 mb-6">
-                        <h2 class="text-xl font-bold mb-4">Transaction History</h2>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center p-3 bg-slate-800/30 rounded-lg">
-                                <div class="flex items-center">
-                                    <div class="bg-green-500/20 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-arrow-down text-green-400"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium">Deposit</h3>
-                                        <p class="text-xs text-slate-400">Today, 10:30 AM</p>
-                                    </div>
-                                </div>
-                                <div class="text-green-400 font-medium">+₹1000</div>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-800/30 rounded-lg">
-                                <div class="flex items-center">
-                                    <div class="bg-red-500/20 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-arrow-up text-red-400"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium">Withdrawal</h3>
-                                        <p class="text-xs text-slate-400">Yesterday, 5:45 PM</p>
-                                    </div>
-                                </div>
-                                <div class="text-red-400 font-medium">-₹500</div>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-800/30 rounded-lg">
-                                <div class="flex items-center">
-                                    <div class="bg-blue-500/20 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-gamepad text-blue-400"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-medium">Game Win</h3>
-                                        <p class="text-xs text-slate-400">Yesterday, 3:20 PM</p>
-                                    </div>
-                                </div>
-                                <div class="text-green-400 font-medium">+₹2500</div>
-                            </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Total Winnings</h3>
+                        <div class="flex items-end mb-2">
+                            <span class="text-3xl font-bold text-green-600 mr-2" id="total-winnings">$0.00</span>
+                            <span class="text-sm text-green-600 mb-1">+0%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500" style="width: 0%"></div>
                         </div>
                     </div>
-
-                    <div class="glass-effect rounded-xl p-6">
-                        <h2 class="text-xl font-bold mb-4">Quick Deposit</h2>
-                        <div class="grid grid-cols-3 gap-3 mb-4">
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="100">₹100</button>
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="500">₹500</button>
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="1000">₹1000</button>
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="2000">₹2000</button>
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="5000">₹5000</button>
-                            <button class="deposit-amount bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-3 rounded-lg font-medium" data-amount="10000">₹10000</button>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Total Deposits</h3>
+                        <div class="flex items-end mb-2">
+                            <span class="text-3xl font-bold text-blue-600" id="total-deposits">$0.00</span>
                         </div>
-                        <button class="w-full py-3 rounded-lg btn-primary font-bold flex items-center justify-center">
-                            <i class="fas fa-credit-card mr-2"></i> PROCEED TO PAYMENT
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Profile Page (Modal) -->
-                <div id="profile-modal" class="modal hidden">
-                    <div class="modal-content">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold">My Profile</h2>
-                            <button id="close-profile" class="text-slate-400 hover:text-white">
-                                <i class="fas fa-times"></i>
-                            </button>
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500" style="width: 0%"></div>
                         </div>
-                                                
-                        <div class="flex flex-col items-center mb-6">
-                            <div class="profile-avatar w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center mb-3">
-                                <i class="fas fa-user text-white text-3xl"></i>
-                            </div>
-                            <h3 class="font-bold text-lg" id="profile-username">Player123</h3>
-                            <p class="text-slate-400 text-sm">Member since June 2023</p>
-                        </div>
-                                                
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-center p-3 bg-slate-800/50 rounded-lg">
-                                <div class="bg-blue-500/20 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-id-card text-blue-400"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Player ID</h3>
-                                    <p class="text-xs text-slate-400">CPP123456789</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-slate-800/50 rounded-lg">
-                                <div class="bg-green-500/20 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-wallet text-green-400"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Wallet Balance</h3>
-                                    <p class="text-xs text-slate-400">₹<span id="profile-wallet">5000</span></p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-slate-800/50 rounded-lg">
-                                <div class="bg-purple-500/20 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-trophy text-purple-400"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Total Wins</h3>
-                                    <p class="text-xs text-slate-400">₹12,500</p>
-                                </div>
-                            </div>
-                        </div>
-                                                
-                        <button class="w-full py-3 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 font-medium mb-3">
-                            <i class="fas fa-cog mr-2"></i> Settings
-                        </button>
-                        <button class="w-full py-3 rounded-lg bg-red-600/30 hover:bg-red-600/40 border border-red-600/50 font-medium">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </button>
-                    </div>
-                </div>
-            </main>
-        </div>
-
-        <!-- Bet Input Modal with Multiplier -->
-        <div id="bet-modal" class="modal hidden">
-            <div class="modal-content">
-                <h2 class="text-xl font-bold mb-4">Place Your Bet</h2>
-                <div class="mb-4">
-                    <label class="block text-slate-400 text-sm mb-2">Bet Amount</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400">₹</span>
-                        <input type="number" id="bet-amount" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter amount" min="10" max="10000">
                     </div>
                 </div>
                 
-                <div class="mb-4" id="multiplier-section">
-                    <label class="block text-slate-400 text-sm mb-2">Multiplier</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="1">1x</button>
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="5">5x</button>
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="10">10x</button>
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="20">20x</button>
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="50">50x</button>
-                        <button class="multiplier-btn bg-slate-800/50 hover:bg-blue-600/30 border border-slate-700 hover:border-blue-400 py-2 rounded-lg" data-multiplier="100">100x</button>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b">
+                        <h3 class="font-bold">Transaction History</h3>
                     </div>
-                </div>
-                
-                <div class="mb-4 bg-slate-800/50 p-3 rounded-lg">
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="text-slate-400">Potential Win:</span>
-                        <span class="font-medium" id="potential-win">₹0</span>
+                    
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="text-left border-b">
+                                        <th class="pb-2">Date</th>
+                                        <th class="pb-2">Type</th>
+                                        <th class="pb-2">Amount</th>
+                                        <th class="pb-2">Method</th>
+                                        <th class="pb-2">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transaction-history">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-400">Selected:</span>
-                        <span class="font-medium" id="selected-prediction">None</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <button id="cancel-bet" class="py-3 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 font-medium">
-                        Cancel
-                    </button>
-                    <button id="confirm-bet" class="py-3 rounded-lg btn-primary font-medium">
-                        Confirm Bet
-                    </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Notification -->
-        <div id="notification" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 z-50 hidden">
-            <div class="flex items-center">
-                <i class="fas fa-check-circle mr-2"></i>
-                <span id="notification-message">Bet placed successfully!</span>
+            
+            <!-- Profile Page -->
+            <div id="profile-page" class="page">
+                <div class="grid md:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex flex-col items-center">
+                            <img id="profile-avatar" src="https://via.placeholder.com/150" alt="Profile" class="w-24 h-24 rounded-full mb-4 object-cover">
+                            <h3 class="text-xl font-bold" id="profile-name">Guest User</h3>
+                            <p class="text-gray-500 text-sm" id="profile-email">guest@example.com</p>
+                            
+                            <div class="mt-6 w-full">
+                                <label for="avatar-upload" class="btn-primary w-full text-center py-2 cursor-pointer">
+                                    <i class="fas fa-camera mr-2"></i> Change Avatar
+                                </label>
+                                <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-3 bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-6">Profile Information</h3>
+                        
+                        <form id="profile-form">
+                            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input type="text" id="first-name" class="input-field" placeholder="First Name">
+                                </div>
+                                <div>
+                                    <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input type="text" id="last-name" class="input-field" placeholder="Last Name">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="profile-email-input" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" id="profile-email-input" class="input-field" placeholder="Email" disabled>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" id="phone-number" class="input-field" placeholder="Phone Number">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                <select id="country" class="input-field">
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="IN">India</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn-primary px-6 py-2">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="mt-8 pt-6 border-t">
+                            <h3 class="text-xl font-bold mb-4">Change Password</h3>
+                            
+                            <form id="password-form">
+                                <div class="mb-4">
+                                    <label for="current-password" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                                    <input type="password" id="current-password" class="input-field" placeholder="Current Password">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="new-password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                    <input type="password" id="new-password" class="input-field" placeholder="New Password">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                    <input type="password" id="confirm-password" class="input-field" placeholder="Confirm Password">
+                                </div>
+                                
+                                <div class="flex justify-end">
+                                    <button type="submit" class="btn-primary px-6 py-2">
+                                        <i class="fas fa-key mr-2"></i> Change Password
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            
+            <!-- History Page -->
+            <div id="history-page" class="page">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold">Betting History</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="relative">
+                                    <input type="text" id="history-search" class="input-field pl-8" placeholder="Search...">
+                                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                </div>
+                                <select id="history-filter" class="input-field">
+                                    <option value="all">All Bets</option>
+                                    <option value="win">Wins</option>
+                                    <option value="lose">Losses</option>
+                                    <option value="color">Color Bets</option>
+                                    <option value="number">Number Bets</option>
+                                    <option value="bigsmall">Big/Small Bets</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="text-left border-b">
+                                        <th class="pb-2">Date</th>
+                                        <th class="pb-2">Game</th>
+                                        <th class="pb-2">Prediction</th>
+                                        <th class="pb-2">Amount</th>
+                                        <th class="pb-2">Multiplier</th>
+                                        <th class="pb-2">Result</th>
+                                        <th class="pb-2">Payout</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="betting-history">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Color Predict Pro</h3>
+                        <p class="text-gray-400">The most exciting color prediction game with real cash prizes and fair gameplay.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Quick Links</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Games</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Wallet</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Profile</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Help</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">How to Play</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Rules</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Responsible Gaming</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                    <p>© 2023 Color Predict Pro. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
     </div>
-
+    
     <script>
-        // Simulate loading
-        setTimeout(() => {
-            document.getElementById('loading-screen').classList.add('hidden');
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }, 1500);
-
-        // Auth Modal Toggle
-        document.getElementById('show-register').addEventListener('click', () => {
-            document.getElementById('login-form').classList.add('hidden');
-            document.getElementById('register-form').classList.remove('hidden');
-            document.getElementById('auth-modal-title').textContent = 'Register';
-        });
+        // Game Data
+        const gameData = {
+            currentUser: null,
+            balance: 0,
+            gameInterval: null,
+            timer: 30,
+            currentRound: 20230517100051924,
+            currentNumber: null,
+            currentColor: null,
+            currentBigSmall: null,
+            recentResults: [],
+            gameHistory: [],
+            transactionHistory: [],
+            bettingHistory: [],
+            selectedPrediction: null,
+            selectedMultiplier: 1,
+            betAmount: 0
+        };
+        
+        // DOM Elements
+        const elements = {
+            // Auth
+            authModal: document.getElementById('auth-modal'),
+            authModalTitle: document.getElementById('auth-modal-title'),
+            loginForm: document.getElementById('login-form'),
+            registerForm: document.getElementById('register-form'),
+            showRegister: document.getElementById('show-register'),
+            showLogin: document.getElementById('show-login'),
+            loginBtn: document.getElementById('login-btn'),
+            registerBtn: document.getElementById('register-btn'),
+            closeAuthModal: document.getElementById('close-auth-modal'),
+            authBtn: document.getElementById('auth-btn'),
+            
+            // User
+            userMenu: document.getElementById('user-menu'),
+            userMenuBtn: document.getElementById('user-menu-btn'),
+            userDropdown: document.getElementById('user-dropdown'),
+            userAvatar: document.getElementById('user-avatar'),
+            userName: document.getElementById('user-name'),
+            userBalance: document.getElementById('user-balance'),
+            balanceAmount: document.getElementById('balance-amount'),
+            logoutLink: document.getElementById('logout-link'),
+            
+            // Pages
+            pages: document.querySelectorAll('.page'),
+            navLinks: document.querySelectorAll('.nav-link'),
+            
+            // Home
+            homePage: document.getElementById('home-page'),
+            playNowBtn: document.getElementById('play-now-btn'),
+            
+            // Game
+            gamePage: document.getElementById('game-page'),
+            gameTimer: document.getElementById('game-timer'),
+            currentNumber: document.getElementById('current-number'),
+            roundNumber: document.getElementById('round-number'),
+            recentResults: document.getElementById('recent-results'),
+            historyBody: document.getElementById('history-body'),
+            
+            // Prediction buttons
+            predictionBtns: document.querySelectorAll('.prediction-btn'),
+            numberBalls: document.querySelectorAll('[data-type="number"]'),
+            bigSmallBtns: document.querySelectorAll('.big-small-btn'),
+            
+            // Bet modal
+            betModal: document.getElementById('bet-modal'),
+            betAmount: document.getElementById('bet-amount'),
+            multiplierBtns: document.querySelectorAll('.multiplier-btn'),
+            confirmBet: document.getElementById('confirm-bet'),
+            cancelBet: document.getElementById('cancel-bet'),
+            closeBetModal: document.getElementById('close-bet-modal'),
+            
+            // Wallet
+            walletPage: document.getElementById('wallet-page'),
+            walletBalance: document.getElementById('wallet-balance'),
+            totalWinnings: document.getElementById('total-winnings'),
+            totalDeposits: document.getElementById('total-deposits'),
+            transactionHistory: document.getElementById('transaction-history'),
+            depositBtn: document.getElementById('deposit-btn'),
+            withdrawBtn: document.getElementById('withdraw-btn'),
+            walletLink: document.getElementById('wallet-link'),
+            
+            // Wallet modal
+            walletModal: document.getElementById('wallet-modal'),
+            transactionType: document.getElementById('transaction-type'),
+            transactionAmount: document.getElementById('transaction-amount'),
+            transactionMethod: document.getElementById('transaction-method'),
+            confirmTransaction: document.getElementById('confirm-transaction'),
+            cancelTransaction: document.getElementById('cancel-transaction'),
+            closeWalletModal: document.getElementById('close-wallet-modal'),
+            
+            // Profile
+            profilePage: document.getElementById('profile-page'),
+            profileAvatar: document.getElementById('profile-avatar'),
+            profileName: document.getElementById('profile-name'),
+            profileEmail: document.getElementById('profile-email'),
+            profileForm: document.getElementById('profile-form'),
+            firstName: document.getElementById('first-name'),
+            lastName: document.getElementById('last-name'),
+            profileEmailInput: document.getElementById('profile-email-input'),
+            phoneNumber: document.getElementById('phone-number'),
+            country: document.getElementById('country'),
+            passwordForm: document.getElementById('password-form'),
+            currentPassword: document.getElementById('current-password'),
+            newPassword: document.getElementById('new-password'),
+            confirmPassword: document.getElementById('confirm-password'),
+            profileLink: document.getElementById('profile-link'),
+            avatarUpload: document.getElementById('avatar-upload'),
+            
+            // History
+            historyPage: document.getElementById('history-page'),
+            bettingHistory: document.getElementById('betting-history'),
+            historySearch: document.getElementById('history-search'),
+            historyFilter: document.getElementById('history-filter'),
+            
+            // Notification
+            notification: document.getElementById('notification'),
+            
+            // Game tabs
+            gameTabs: document.querySelectorAll('.game-tab'),
+            historyTabs: document.querySelectorAll('.history-tab'),
+            showColors: document.getElementById('show-colors'),
+            showNumbers: document.getElementById('show-numbers')
+        };
+        
+        // Initialize the game
+        function initGame() {
+            // Check if user is logged in
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                gameData.currentUser = JSON.parse(storedUser);
+                updateUserUI();
+            }
+            
+            // Generate initial game data
+            generateInitialData();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Start the game timer
+            startGameTimer();
+            
+            // Show home page by default
+            showPage('home');
+        }
+        
+        // Generate initial game data
+        function generateInitialData() {
+            // Generate recent results
+            for (let i = 0; i < 10; i++) {
+                const number = Math.floor(Math.random() * 10);
+                const color = getColorForNumber(number);
+                const bigSmall = number >= 5 ? 'big' : 'small';
                 
-        document.getElementById('show-login').addEventListener('click', () => {
-            document.getElementById('register-form').classList.add('hidden');
-            document.getElementById('login-form').classList.remove('hidden');
-            document.getElementById('auth-modal-title').textContent = 'Login';
-        });
+                gameData.recentResults.push({
+                    number,
+                    color,
+                    bigSmall
+                });
+            }
+            
+            // Generate game history
+            for (let i = 0; i < 20; i++) {
+                const round = gameData.currentRound - (i * 1000);
+                const number = Math.floor(Math.random() * 10);
+                const color = getColorForNumber(number);
+                const bigSmall = number >= 5 ? 'big' : 'small';
                 
-        document.getElementById('close-auth').addEventListener('click', () => {
-            document.getElementById('auth-modal').classList.add('hidden');
-        });
-
-        // Auth Functions
-        document.getElementById('login-btn').addEventListener('click', () => {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-                        
-            if (!username || !password) {
-                showNotification('Please enter both username and password', 'error');
+                gameData.gameHistory.push({
+                    round,
+                    number,
+                    color,
+                    bigSmall
+                });
+            }
+            
+            // Update UI with initial data
+            updateRecentResults();
+            updateGameHistory();
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Auth
+            elements.authBtn.addEventListener('click', () => {
+                showAuthModal('login');
+            });
+            
+            elements.showRegister.addEventListener('click', () => {
+                showAuthModal('register');
+            });
+            
+            elements.showLogin.addEventListener('click', () => {
+                showAuthModal('login');
+            });
+            
+            elements.closeAuthModal.addEventListener('click', () => {
+                hideAuthModal();
+            });
+            
+            elements.loginBtn.addEventListener('click', handleLogin);
+            elements.registerBtn.addEventListener('click', handleRegister);
+            
+            // User menu
+            elements.userMenuBtn.addEventListener('click', toggleUserDropdown);
+            elements.logoutLink.addEventListener('click', handleLogout);
+            
+            // Navigation
+            elements.navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+            
+            elements.playNowBtn.addEventListener('click', () => {
+                showPage('game');
+            });
+            
+            elements.profileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('profile');
+            });
+            
+            elements.walletLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('wallet');
+            });
+            
+            // Game
+            elements.predictionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    handlePredictionClick(btn, 'color');
+                });
+            });
+            
+            elements.numberBalls.forEach(ball => {
+                ball.addEventListener('click', () => {
+                    handlePredictionClick(ball, 'number');
+                });
+            });
+            
+            elements.bigSmallBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    handlePredictionClick(btn, 'bigsmall');
+                });
+            });
+            
+            // Bet modal
+            elements.multiplierBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    elements.multiplierBtns.forEach(b => b.classList.remove('bg-primary-100', 'text-primary-800'));
+                    btn.classList.add('bg-primary-100', 'text-primary-800');
+                    gameData.selectedMultiplier = parseInt(btn.getAttribute('data-multiplier'));
+                });
+            });
+            
+            elements.confirmBet.addEventListener('click', confirmBet);
+            elements.cancelBet.addEventListener('click', cancelBet);
+            elements.closeBetModal.addEventListener('click', () => {
+                elements.betModal.classList.remove('active');
+            });
+            
+            // Wallet
+            elements.depositBtn.addEventListener('click', () => {
+                showWalletModal('deposit');
+            });
+            
+            elements.withdrawBtn.addEventListener('click', () => {
+                showWalletModal('withdraw');
+            });
+            
+            elements.confirmTransaction.addEventListener('click', handleTransaction);
+            elements.cancelTransaction.addEventListener('click', () => {
+                elements.walletModal.classList.remove('active');
+            });
+            
+            elements.closeWalletModal.addEventListener('click', () => {
+                elements.walletModal.classList.remove('active');
+            });
+            
+            // Profile
+            elements.profileForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                updateProfile();
+            });
+            
+            elements.passwordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                updatePassword();
+            });
+            
+            elements.avatarUpload.addEventListener('change', handleAvatarUpload);
+            
+            // Game tabs
+            elements.gameTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    elements.gameTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    changeGameSpeed(tab.getAttribute('data-game'));
+                });
+            });
+            
+            elements.historyTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    elements.historyTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    // TODO: Implement history tab switching
+                });
+            });
+            
+            elements.showColors.addEventListener('click', () => {
+                updateRecentResults('color');
+            });
+            
+            elements.showNumbers.addEventListener('click', () => {
+                updateRecentResults('number');
+            });
+            
+            // History
+            elements.historySearch.addEventListener('input', filterBettingHistory);
+            elements.historyFilter.addEventListener('change', filterBettingHistory);
+        }
+        
+        // Show page
+        function showPage(page) {
+            // Hide all pages
+            elements.pages.forEach(p => p.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(`${page}-page`).classList.add('active');
+            
+            // Update active nav link
+            elements.navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelector(`.nav-link[data-page="${page}"]`).classList.add('active');
+            
+            // Update page-specific data
+            if (page === 'wallet') {
+                updateWalletUI();
+            } else if (page === 'history') {
+                updateBettingHistory();
+            }
+        }
+        
+        // Auth modal
+        function showAuthModal(type) {
+            elements.authModal.classList.add('active');
+            
+            if (type === 'login') {
+                elements.authModalTitle.textContent = 'Login';
+                elements.loginForm.classList.remove('hidden');
+                elements.registerForm.classList.add('hidden');
+            } else {
+                elements.authModalTitle.textContent = 'Register';
+                elements.loginForm.classList.add('hidden');
+                elements.registerForm.classList.remove('hidden');
+            }
+        }
+        
+        function hideAuthModal() {
+            elements.authModal.classList.remove('active');
+        }
+        
+        // Handle login
+        function handleLogin() {
+            const email = elements.loginEmail.value;
+            const password = elements.loginPassword.value;
+            
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
                 return;
             }
-                        
-            // In a real app, you would validate against your backend
-            localStorage.setItem('username', username);
-            localStorage.setItem('loggedIn', 'true');
-                        
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('main-container').classList.remove('hidden');
-            document.getElementById('profile-username').textContent = username;
-                        
-            showNotification('Login successful!', 'success');
-        });
+            
+            // In a real app, this would be an API call
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                gameData.currentUser = user;
+                gameData.balance = user.balance || 0;
+                localStorage.setItem('currentUser', JSON.stringify(user));
                 
-        document.getElementById('register-btn').addEventListener('click', () => {
-            const username = document.getElementById('register-username').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirm = document.getElementById('register-confirm').value;
-                        
-            if (!username || !email || !password || !confirm) {
-                showNotification('Please fill all fields', 'error');
+                updateUserUI();
+                hideAuthModal();
+                showNotification('Login successful', 'success');
+                
+                // Clear form
+                elements.loginEmail.value = '';
+                elements.loginPassword.value = '';
+            } else {
+                showNotification('Invalid email or password', 'error');
+            }
+        }
+        
+        // Handle register
+        function handleRegister() {
+            const name = elements.registerName.value;
+            const email = elements.registerEmail.value;
+            const password = elements.registerPassword.value;
+            const confirmPassword = elements.registerConfirmPassword.value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'error');
                 return;
             }
-                        
-            if (password !== confirm) {
+            
+            if (password !== confirmPassword) {
                 showNotification('Passwords do not match', 'error');
                 return;
             }
-                        
-            // In a real app, you would register with your backend
-            localStorage.setItem('username', username);
-            localStorage.setItem('loggedIn', 'true');
-                        
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('main-container').classList.remove('hidden');
-            document.getElementById('profile-username').textContent = username;
-                        
-            showNotification('Registration successful!', 'success');
-        });
-                
-        // Logout
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            localStorage.removeItem('loggedIn');
-            localStorage.removeItem('username');
-                        
-            document.getElementById('main-container').classList.add('hidden');
-            document.getElementById('auth-modal').classList.remove('hidden');
-                        
-            // Reset forms
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            document.getElementById('register-username').value = '';
-            document.getElementById('register-email').value = '';
-            document.getElementById('register-password').value = '';
-            document.getElementById('register-confirm').value = '';
-                        
-            // Show login form
-            document.getElementById('register-form').classList.add('hidden');
-            document.getElementById('login-form').classList.remove('hidden');
-            document.getElementById('auth-modal-title').textContent = 'Login';
-        });
-
-        // Page Navigation
-        const pages = document.querySelectorAll('.page');
-        const navBtns = document.querySelectorAll('.nav-btn');
-                
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const pageId = btn.getAttribute('data-page') + '-page';
-                                
-                // Update active nav button
-                navBtns.forEach(navBtn => navBtn.classList.remove('bg-blue-900/50', 'text-blue-400'));
-                btn.classList.add('bg-blue-900/50', 'text-blue-400');
-                                
-                // Show selected page
-                pages.forEach(page => page.classList.remove('active-page'));
-                document.getElementById(pageId).classList.add('active-page');
-            });
-        });
-
-        // Play Now button
-        document.getElementById('play-now-btn').addEventListener('click', () => {
-            // Update active nav button
-            navBtns.forEach(navBtn => navBtn.classList.remove('bg-blue-900/50', 'text-blue-400'));
-            document.querySelector('.nav-btn[data-page="game"]').classList.add('bg-blue-900/50', 'text-blue-400');
-                        
-            // Show game page
-            pages.forEach(page => page.classList.remove('active-page'));
-            document.getElementById('game-page').classList.add('active-page');
-        });
-
-        // Game Tabs
-        const gameTabs = document.querySelectorAll('.game-tab');
-        gameTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                gameTabs.forEach(t => t.classList.remove('active-tab', 'bg-blue-900/50', 'text-blue-400'));
-                tab.classList.add('active-tab', 'bg-blue-900/50', 'text-blue-400');
-                // Here you would typically load the selected game mode data
-            });
-        });
-
-        // History Tabs
-        const historyTabs = document.querySelectorAll('.history-tab');
-        const historyContents = document.querySelectorAll('.history-tab-content');
-                
-        historyTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab') + '-content';
-                                
-                historyTabs.forEach(t => t.classList.remove('active-tab', 'text-blue-400'));
-                tab.classList.add('active-tab', 'text-blue-400');
-                                
-                historyContents.forEach(content => content.classList.remove('active-tab-content'));
-                document.getElementById(tabId).classList.add('active-tab-content');
-            });
-        });
-
-        // Profile Modal
-        document.getElementById('profile-btn').addEventListener('click', () => {
-            document.getElementById('profile-modal').classList.remove('hidden');
-        });
-
-        document.getElementById('close-profile').addEventListener('click', () => {
-            document.getElementById('profile-modal').classList.add('hidden');
-        });
-
-        // Game Logic
-        let currentBet = {
-            type: null,
-            value: null,
-            amount: 0,
-            multiplier: 1
-        };
-
-        // Populate history
-        const historyData = [
-            { period: "20240615123455", number: 7, bigSmall: "small", color: "green" },
-            { period: "20240615123454", number: 9, bigSmall: "big", color: "green" },
-            { period: "20240615123453", number: 2, bigSmall: "small", color: "red" },
-            { period: "20240615123452", number: 3, bigSmall: "small", color: "green" },
-            { period: "20240615123451", number: 8, bigSmall: "big", color: "red" },
-            { period: "20240615123450", number: 5, bigSmall: "big", color: "violet" },
-            { period: "20240615123449", number: 1, bigSmall: "small", color: "green" },
-            { period: "20240615123448", number: 4, bigSmall: "small", color: "red" },
-            { period: "20240615123447", number: 6, bigSmall: "big", color: "red" },
-            { period: "20240615123446", number: 0, bigSmall: "small", color: "violet" }
-        ];
-
-        const historyBody = document.getElementById('history-body');
-        historyData.forEach(item => {
-            const row = document.createElement('tr');
-            row.className = 'history-item border-b border-slate-700 hover:bg-slate-800/50';
-            row.innerHTML = `
-                <td class="py-3 text-sm">${item.period}</td>
-                <td class="py-3">
-                    <div class="ball ${item.color} w-8 h-8 text-sm">${item.number}</div>
-                </td>
-                <td class="py-3 text-sm ${item.bigSmall === 'big' ? 'text-blue-400' : 'text-yellow-400'}">${item.bigSmall.toUpperCase()}</td>
-                <td class="py-3 text-sm ${item.color === 'green' ? 'text-green-400' : item.color === 'red' ? 'text-red-400' : 'text-purple-400'}">${item.color.toUpperCase()}</td>
-            `;
-            historyBody.appendChild(row);
-        });
-
-        // Prediction buttons
-        const predictionBtns = document.querySelectorAll('.prediction-btn, .number-ball, .big-small-btn');
-        predictionBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                predictionBtns.forEach(b => b.classList.remove('ring-2', 'ring-yellow-400'));
-                                
-                // Add active class to clicked button
-                btn.classList.add('ring-2', 'ring-yellow-400');
-                                
-                // Set current bet
-                currentBet.type = btn.getAttribute('data-type');
-                currentBet.value = btn.getAttribute('data-value');
-                                
-                // Update selected prediction in modal
-                document.getElementById('selected-prediction').textContent = 
-                    `${currentBet.type === 'color' ? 'Color: ' : 
-                      currentBet.type === 'number' ? 'Number: ' : 'Big/Small: '}${currentBet.value.toUpperCase()}`;
-                                
-                // Show multiplier section only for number bets
-                if (currentBet.type === 'number') {
-                    document.getElementById('multiplier-section').classList.remove('hidden');
-                } else {
-                    document.getElementById('multiplier-section').classList.add('hidden');
-                    currentBet.multiplier = 1; // Reset multiplier for non-number bets
-                }
-                                
-                // Show bet modal
-                document.getElementById('bet-modal').classList.remove('hidden');
-            });
-        });
-
-        // Bet amount input
-        const betAmountInput = document.getElementById('bet-amount');
-        betAmountInput.addEventListener('input', updatePotentialWin);
-
-        // Multiplier buttons
-        const multiplierBtns = document.querySelectorAll('.multiplier-btn');
-        multiplierBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                multiplierBtns.forEach(b => b.classList.remove('bg-blue-600/30', 'border-blue-400'));
-                btn.classList.add('bg-blue-600/30', 'border-blue-400');
-                                
-                currentBet.multiplier = parseInt(btn.getAttribute('data-multiplier'));
-                updatePotentialWin();
-            });
-        });
-
-        function updatePotentialWin() {
-            const amount = parseFloat(betAmountInput.value) || 0;
-            const multiplier = currentBet.multiplier;
-                        
-            // Calculate payout based on bet type
-            let payoutRate = 1.98; // Default for color and big/small
-            if (currentBet.type === 'number') {
-                payoutRate = 9; // Higher payout for specific numbers
-            } else if (currentBet.value === 'violet') {
-                payoutRate = 4.5; // Violet has higher payout
-            }
-                        
-            const potentialWin = amount * multiplier * payoutRate;
-            document.getElementById('potential-win').textContent = `₹${potentialWin.toFixed(2)}`;
-        }
-
-        // Confirm bet
-        document.getElementById('confirm-bet').addEventListener('click', () => {
-            const amount = parseFloat(betAmountInput.value);
-            const walletAmount = parseFloat(document.getElementById('wallet-amount').textContent);
-                        
-            if (isNaN(amount) || amount < 10) {
-                showNotification('Minimum bet amount is ₹10', 'error');
+            
+            // In a real app, this would be an API call
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.some(u => u.email === email)) {
+                showNotification('Email already registered', 'error');
                 return;
             }
-                        
-            if (amount > walletAmount) {
+            
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                password,
+                balance: 1000, // Starting balance
+                avatar: 'https://via.placeholder.com/150',
+                joined: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            gameData.currentUser = newUser;
+            gameData.balance = newUser.balance;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            updateUserUI();
+            hideAuthModal();
+            showNotification('Registration successful', 'success');
+            
+            // Clear form
+            elements.registerName.value = '';
+            elements.registerEmail.value = '';
+            elements.registerPassword.value = '';
+            elements.registerConfirmPassword.value = '';
+        }
+        
+        // Handle logout
+        function handleLogout(e) {
+            e.preventDefault();
+            gameData.currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            updateUserUI();
+            showPage('home');
+            showNotification('Logged out successfully', 'success');
+        }
+        
+        // Update user UI
+        function updateUserUI() {
+            if (gameData.currentUser) {
+                // Show user menu
+                elements.authBtn.classList.add('hidden');
+                elements.userMenu.classList.remove('hidden');
+                elements.userBalance.classList.remove('hidden');
+                
+                // Update user info
+                elements.userName.textContent = gameData.currentUser.name;
+                elements.userAvatar.src = gameData.currentUser.avatar;
+                elements.balanceAmount.textContent = `$${gameData.balance.toFixed(2)}`;
+                
+                // Update profile page
+                elements.profileName.textContent = gameData.currentUser.name;
+                elements.profileEmail.textContent = gameData.currentUser.email;
+                elements.profileAvatar.src = gameData.currentUser.avatar;
+                
+                // Update profile form
+                const nameParts = gameData.currentUser.name.split(' ');
+                elements.firstName.value = nameParts[0] || '';
+                elements.lastName.value = nameParts.slice(1).join(' ') || '';
+                elements.profileEmailInput.value = gameData.currentUser.email;
+                elements.phoneNumber.value = gameData.currentUser.phone || '';
+                elements.country.value = gameData.currentUser.country || '';
+            } else {
+                // Show auth button
+                elements.authBtn.classList.remove('hidden');
+                elements.userMenu.classList.add('hidden');
+                elements.userBalance.classList.add('hidden');
+                
+                // Reset profile page
+                elements.profileName.textContent = 'Guest User';
+                elements.profileEmail.textContent = 'guest@example.com';
+                elements.profileAvatar.src = 'https://via.placeholder.com/150';
+            }
+        }
+        
+        // Toggle user dropdown
+        function toggleUserDropdown() {
+            elements.userDropdown.classList.toggle('hidden');
+        }
+        
+        // Start game timer
+        function startGameTimer() {
+            if (gameData.gameInterval) {
+                clearInterval(gameData.gameInterval);
+            }
+            
+            gameData.timer = 30;
+            updateTimerUI();
+            
+            gameData.gameInterval = setInterval(() => {
+                gameData.timer--;
+                updateTimerUI();
+                
+                if (gameData.timer <= 0) {
+                    endRound();
+                    startNewRound();
+                }
+            }, 1000);
+        }
+        
+        // Update timer UI
+        function updateTimerUI() {
+            const minutes = Math.floor(gameData.timer / 60);
+            const seconds = gameData.timer % 60;
+            elements.gameTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Change game speed
+        function changeGameSpeed(speed) {
+            clearInterval(gameData.gameInterval);
+            
+            switch (speed) {
+                case '30sec':
+                    gameData.timer = 30;
+                    break;
+                case '1min':
+                    gameData.timer = 60;
+                    break;
+                case '3min':
+                    gameData.timer = 180;
+                    break;
+                case '5min':
+                    gameData.timer = 300;
+                    break;
+                default:
+                    gameData.timer = 30;
+            }
+            
+            updateTimerUI();
+            startGameTimer();
+        }
+        
+        // End current round
+        function endRound() {
+            // Generate random number (0-9)
+            gameData.currentNumber = Math.floor(Math.random() * 10);
+            gameData.currentColor = getColorForNumber(gameData.currentNumber);
+            gameData.currentBigSmall = gameData.currentNumber >= 5 ? 'big' : 'small';
+            
+            // Update UI
+            elements.currentNumber.textContent = gameData.currentNumber;
+            elements.currentNumber.className = `ball ${gameData.currentColor} text-2xl w-20 h-20`;
+            
+            // Add to recent results
+            gameData.recentResults.unshift({
+                number: gameData.currentNumber,
+                color: gameData.currentColor,
+                bigSmall: gameData.currentBigSmall
+            });
+            
+            if (gameData.recentResults.length > 10) {
+                gameData.recentResults.pop();
+            }
+            
+            // Add to game history
+            gameData.gameHistory.unshift({
+                round: gameData.currentRound,
+                number: gameData.currentNumber,
+                color: gameData.currentColor,
+                bigSmall: gameData.currentBigSmall
+            });
+            
+            if (gameData.gameHistory.length > 20) {
+                gameData.gameHistory.pop();
+            }
+            
+            // Check for winning bets
+            checkWinningBets();
+            
+            // Update UI
+            updateRecentResults();
+            updateGameHistory();
+        }
+        
+        // Start new round
+        function startNewRound() {
+            gameData.currentRound++;
+            gameData.timer = 30;
+            gameData.currentNumber = null;
+            gameData.currentColor = null;
+            gameData.currentBigSmall = null;
+            
+            // Update UI
+            elements.roundNumber.textContent = gameData.currentRound;
+            elements.currentNumber.textContent = '-';
+            elements.currentNumber.className = 'ball gray-500 text-2xl w-20 h-20';
+            
+            // Start timer again
+            startGameTimer();
+        }
+        
+        // Get color for number
+        function getColorForNumber(number) {
+            if (number === 0 || number === 5) return 'violet';
+            if (number === 1 || number === 3 || number === 7 || number === 9) return 'green';
+            return 'red';
+        }
+        
+        // Update recent results
+        function updateRecentResults(type = 'color') {
+            elements.recentResults.innerHTML = '';
+            
+            gameData.recentResults.forEach(result => {
+                const div = document.createElement('div');
+                
+                if (type === 'color') {
+                    div.className = `ball ${result.color} w-12 h-12 flex-shrink-0`;
+                    div.textContent = '';
+                } else {
+                    div.className = `ball ${result.color} w-12 h-12 flex-shrink-0`;
+                    div.textContent = result.number;
+                }
+                
+                elements.recentResults.appendChild(div);
+            });
+        }
+        
+        // Update game history
+        function updateGameHistory() {
+            elements.historyBody.innerHTML = '';
+            
+            gameData.gameHistory.forEach(game => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${game.round}</td>
+                    <td><span class="ball ${game.color} w-8 h-8 inline-flex items-center justify-center">${game.number}</span></td>
+                    <td>${game.bigSmall}</td>
+                    <td><span class="px-2 py-1 rounded capitalize" style="background-color: ${getColorCode(game.color)}20; color: ${getColorCode(game.color)}">${game.color}</span></td>
+                `;
+                
+                elements.historyBody.appendChild(row);
+            });
+        }
+        
+        // Get color code
+        function getColorCode(color) {
+            switch (color) {
+                case 'green': return '#10b981';
+                case 'red': return '#ef4444';
+                case 'violet': return '#8b5cf6';
+                default: return '#6b7280';
+            }
+        }
+        
+        // Handle prediction click
+        function handlePredictionClick(element, type) {
+            if (!gameData.currentUser) {
+                showNotification('Please login to place bets', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            // Reset previous selection
+            if (type === 'color') {
+                elements.predictionBtns.forEach(btn => btn.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+            } else if (type === 'number') {
+                elements.numberBalls.forEach(ball => ball.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+            } else if (type === 'bigsmall') {
+                elements.bigSmallBtns.forEach(btn => btn.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+            }
+            
+            // Highlight selected
+            element.classList.add('ring-4', 'ring-offset-2', 'ring-primary-500');
+            
+            // Store selection
+            gameData.selectedPrediction = {
+                type,
+                value: element.getAttribute('data-value')
+            };
+            
+            // Show bet modal
+            elements.betModal.classList.add('active');
+            elements.betAmount.value = '';
+            elements.multiplierBtns.forEach(b => b.classList.remove('bg-primary-100', 'text-primary-800'));
+            elements.multiplierBtns[0].classList.add('bg-primary-100', 'text-primary-800');
+            gameData.selectedMultiplier = 1;
+        }
+        
+        // Confirm bet
+        function confirmBet() {
+            const amount = parseFloat(elements.betAmount.value);
+            
+            if (!amount || amount <= 0) {
+                showNotification('Please enter a valid bet amount', 'error');
+                return;
+            }
+            
+            if (amount > gameData.balance) {
                 showNotification('Insufficient balance', 'error');
                 return;
             }
-                        
-            currentBet.amount = amount;
-                        
-            // Deduct from wallet
-            const newWalletAmount = walletAmount - amount;
-            document.getElementById('wallet-amount').textContent = newWalletAmount.toFixed(2);
-            document.getElementById('wallet-balance').textContent = newWalletAmount.toFixed(2);
-            document.getElementById('profile-wallet').textContent = newWalletAmount.toFixed(2);
-                        
-            // Here you would typically send the bet to your backend
-            showNotification('Bet placed successfully!', 'success');
-                        
-            // Simulate game result after 5 seconds
-            setTimeout(() => {
-                const randomResult = Math.floor(Math.random() * 10);
-                let resultColor;
-                let resultBigSmall;
-                                
-                if (randomResult === 0 || randomResult === 5) {
-                    resultColor = 'violet';
-                } else if ([1, 3, 7, 9].includes(randomResult)) {
-                    resultColor = 'green';
-                } else {
-                    resultColor = 'red';
-                }
-                                
-                resultBigSmall = randomResult >= 5 ? 'big' : 'small';
-                                
-                // Display result
-                const resultMessage = document.getElementById('result-message');
-                resultMessage.classList.remove('hidden', 'bg-red-600/30', 'bg-green-600/30');
-                                
-                // Check if user won
-                let userWon = false;
-                if (currentBet.type === 'color' && currentBet.value === resultColor) {
-                    userWon = true;
-                } else if (currentBet.type === 'number' && parseInt(currentBet.value) === randomResult) {
-                    userWon = true;
-                } else if (currentBet.type === 'bigsmall' && currentBet.value === resultBigSmall) {
-                    userWon = true;
-                }
-                                
-                if (userWon) {
-                    // Calculate winnings
-                    let payoutRate = 1.98;
-                    if (currentBet.type === 'number') {
-                        payoutRate = 9;
-                    } else if (currentBet.value === 'violet') {
-                        payoutRate = 4.5;
-                    }
-                                            
-                    const winnings = currentBet.amount * currentBet.multiplier * payoutRate;
-                    const walletAmount = parseFloat(document.getElementById('wallet-amount').textContent);
-                    document.getElementById('wallet-amount').textContent = (walletAmount + winnings).toFixed(2);
-                    document.getElementById('wallet-balance').textContent = (walletAmount + winnings).toFixed(2);
-                    document.getElementById('profile-wallet').textContent = (walletAmount + winnings).toFixed(2);
-                                            
-                    resultMessage.className = 'text-center py-2 rounded-lg mb-3 bg-green-600/30';
-                    resultMessage.innerHTML = `
-                        <div class="flex items-center justify-center">
-                            <i class="fas fa-trophy text-yellow-400 mr-2"></i>
-                            <span>Congratulations! You won ₹${winnings.toFixed(2)}</span>
-                        </div>
-                    `;
-                                            
-                    showNotification(`You won ₹${winnings.toFixed(2)}!`, 'success');
-                } else {
-                    resultMessage.className = 'text-center py-2 rounded-lg mb-3 bg-red-600/30';
-                    resultMessage.innerHTML = `
-                        <div class="flex items-center justify-center">
-                            <i class="fas fa-times-circle mr-2"></i>
-                            <span>Result: ${randomResult} (${resultColor.toUpperCase()}) - Better luck next time!</span>
-                        </div>
-                    `;
-                }
-                                
-                // Add to history
-                const newHistoryItem = {
-                    period: "20240615123456",
-                    number: randomResult,
-                    bigSmall: resultBigSmall,
-                    color: resultColor
-                };
-                                
-                const newRow = document.createElement('tr');
-                newRow.className = 'history-item border-b border-slate-700 hover:bg-slate-800/50';
-                newRow.innerHTML = `
-                    <td class="py-3 text-sm">${newHistoryItem.period}</td>
-                    <td class="py-3">
-                        <div class="ball ${newHistoryItem.color} w-8 h-8 text-sm">${newHistoryItem.number}</div>
-                    </td>
-                    <td class="py-3 text-sm ${newHistoryItem.bigSmall === 'big' ? 'text-blue-400' : 'text-yellow-400'}">${newHistoryItem.bigSmall.toUpperCase()}</td>
-                    <td class="py-3 text-sm ${newHistoryItem.color === 'green' ? 'text-green-400' : newHistoryItem.color === 'red' ? 'text-red-400' : 'text-purple-400'}">${newHistoryItem.color.toUpperCase()}</td>
-                `;
-                historyBody.insertBefore(newRow, historyBody.firstChild);
-                                
-                // Reset current bet
-                currentBet = {
-                    type: null,
-                    value: null,
-                    amount: 0,
-                    multiplier: 1
-                };
-                                
-                // Reset UI
-                predictionBtns.forEach(b => b.classList.remove('ring-2', 'ring-yellow-400'));
-                betAmountInput.value = '';
-                document.getElementById('potential-win').textContent = '₹0';
-                document.getElementById('selected-prediction').textContent = 'None';
-                multiplierBtns.forEach(b => b.classList.remove('bg-blue-600/30', 'border-blue-400'));
-                          
-            }, 5000); // 5 seconds delay for demonstration
-                        
-            // Close modal
-            document.getElementById('bet-modal').classList.add('hidden');
-        });
-
-        // Cancel bet
-        document.getElementById('cancel-bet').addEventListener('click', () => {
-            document.getElementById('bet-modal').classList.add('hidden');
-            predictionBtns.forEach(b => b.classList.remove('ring-2', 'ring-yellow-400'));
-            currentBet = {
-                type: null,
-                value: null,
-                amount: 0,
-                multiplier: 1
+            
+            // Deduct from balance
+            gameData.balance -= amount;
+            gameData.balance = parseFloat(gameData.balance.toFixed(2));
+            
+            // Update UI
+            elements.balanceAmount.textContent = `$${gameData.balance.toFixed(2)}`;
+            
+            // Add to betting history
+            const bet = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                game: 'Color Predict 30s',
+                type: gameData.selectedPrediction.type,
+                prediction: gameData.selectedPrediction.value,
+                amount,
+                multiplier: gameData.selectedMultiplier,
+                status: 'pending',
+                payout: 0
             };
-        });
-
-        // Deposit buttons
-        const depositAmounts = document.querySelectorAll('.deposit-amount');
-        depositAmounts.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const amount = parseFloat(btn.getAttribute('data-amount'));
-                const walletAmount = parseFloat(document.getElementById('wallet-amount').textContent);
-                const newAmount = walletAmount + amount;
-                                
-                document.getElementById('wallet-amount').textContent = newAmount.toFixed(2);
-                document.getElementById('wallet-balance').textContent = newAmount.toFixed(2);
-                document.getElementById('profile-wallet').textContent = newAmount.toFixed(2);
-                                
-                showNotification(`₹${amount} added to your wallet!`, 'success');
+            
+            gameData.bettingHistory.unshift(bet);
+            
+            // Close modal
+            elements.betModal.classList.remove('active');
+            
+            // Show notification
+            showNotification(`Bet placed: $${amount.toFixed(2)} on ${gameData.selectedPrediction.value} (x${gameData.selectedMultiplier})`, 'success');
+        }
+        
+        // Cancel bet
+        function cancelBet() {
+            elements.betModal.classList.remove('active');
+            gameData.selectedPrediction = null;
+            
+            // Reset selections
+            elements.predictionBtns.forEach(btn => btn.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+            elements.numberBalls.forEach(ball => ball.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+            elements.bigSmallBtns.forEach(btn => btn.classList.remove('ring-4', 'ring-offset-2', 'ring-primary-500'));
+        }
+        
+        // Check winning bets
+        function checkWinningBets() {
+            if (!gameData.currentUser) return;
+            
+            let anyWin = false;
+            
+            // Process pending bets
+            gameData.bettingHistory.forEach(bet => {
+                if (bet.status === 'pending') {
+                    bet.status = 'lose';
+                    
+                    // Check if bet won
+                    let isWin = false;
+                    
+                    if (bet.type === 'color') {
+                        isWin = bet.prediction === gameData.currentColor;
+                    } else if (bet.type === 'number') {
+                        isWin = parseInt(bet.prediction) === gameData.currentNumber;
+                    } else if (bet.type === 'bigsmall') {
+                        isWin = bet.prediction === gameData.currentBigSmall;
+                    }
+                    
+                    if (isWin) {
+                        const payout = bet.amount * bet.multiplier;
+                        bet.status = 'win';
+                        bet.payout = payout;
+                        
+                        gameData.balance += payout;
+                        gameData.balance = parseFloat(gameData.balance.toFixed(2));
+                        
+                        anyWin = true;
+                        
+                        // Show win notification
+                        showNotification(`You won $${payout.toFixed(2)}!`, 'success');
+                    }
+                }
             });
-        });
-
-        // Notification function
+            
+            // Update UI if balance changed
+            if (anyWin) {
+                elements.balanceAmount.textContent = `$${gameData.balance.toFixed(2)}`;
+                updateWalletUI();
+                updateBettingHistory();
+            }
+        }
+        
+        // Show wallet modal
+        function showWalletModal(type) {
+            if (!gameData.currentUser) {
+                showNotification('Please login to access wallet', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            elements.walletModal.classList.add('active');
+            elements.transactionType.value = type;
+            elements.transactionAmount.value = '';
+        }
+        
+               // Show wallet modal
+        function showWalletModal(type) {
+            if (!gameData.currentUser) {
+                showNotification('Please login to access wallet', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            elements.walletModal.classList.add('active');
+            elements.transactionType.value = type;
+            elements.transactionAmount.value = '';
+        }
+        
+        // Handle wallet transaction
+        function handleTransaction() {
+            const type = elements.transactionType.value;
+            const amount = parseFloat(elements.transactionAmount.value);
+            const method = elements.transactionMethod.value;
+            
+            if (!amount || amount <= 0) {
+                showNotification('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            if (type === 'withdraw' && amount > gameData.balance) {
+                showNotification('Insufficient balance', 'error');
+                return;
+            }
+            
+            // Process transaction
+            if (type === 'deposit') {
+                gameData.balance += amount;
+                showNotification(`Deposited $${amount.toFixed(2)} successfully`, 'success');
+            } else {
+                gameData.balance -= amount;
+                showNotification(`Withdrew $${amount.toFixed(2)} successfully`, 'success');
+            }
+            
+            gameData.balance = parseFloat(gameData.balance.toFixed(2));
+            
+            // Add to transaction history
+            const transaction = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                type,
+                amount,
+                method,
+                status: 'completed'
+            };
+            
+            gameData.transactionHistory.unshift(transaction);
+            
+            // Update current user balance
+            if (gameData.currentUser) {
+                gameData.currentUser.balance = gameData.balance;
+                localStorage.setItem('currentUser', JSON.stringify(gameData.currentUser));
+            }
+            
+            // Update UI
+            elements.balanceAmount.textContent = `$${gameData.balance.toFixed(2)}`;
+            elements.walletModal.classList.remove('active');
+            updateWalletUI();
+        }
+        
+        // Update wallet UI
+        function updateWalletUI() {
+            elements.walletBalance.textContent = `$${gameData.balance.toFixed(2)}`;
+            
+            // Calculate total winnings and deposits
+            let totalWinnings = 0;
+            let totalDeposits = 0;
+            
+            gameData.transactionHistory.forEach(tx => {
+                if (tx.type === 'deposit') {
+                    totalDeposits += tx.amount;
+                }
+            });
+            
+            gameData.bettingHistory.forEach(bet => {
+                if (bet.status === 'win') {
+                    totalWinnings += bet.payout;
+                }
+            });
+            
+            elements.totalWinnings.textContent = `$${totalWinnings.toFixed(2)}`;
+            elements.totalDeposits.textContent = `$${totalDeposits.toFixed(2)}`;
+            
+            // Update transaction history
+            elements.transactionHistory.innerHTML = '';
+            
+            gameData.transactionHistory.forEach(tx => {
+                const row = document.createElement('tr');
+                row.className = 'transaction-item';
+                
+                const date = new Date(tx.date);
+                const dateStr = date.toLocaleDateString();
+                const timeStr = date.toLocaleTimeString();
+                
+                row.innerHTML = `
+                    <td>${dateStr} ${timeStr}</td>
+                    <td class="capitalize">${tx.type}</td>
+                    <td class="${tx.type === 'deposit' ? 'deposit' : 'withdraw'}">
+                        ${tx.type === 'deposit' ? '+' : '-'}$${tx.amount.toFixed(2)}
+                    </td>
+                    <td class="capitalize">${tx.method.replace('_', ' ')}</td>
+                    <td class="capitalize text-green-600">${tx.status}</td>
+                `;
+                
+                elements.transactionHistory.appendChild(row);
+            });
+        }
+        
+        // Update profile
+        function updateProfile() {
+            if (!gameData.currentUser) return;
+            
+            const firstName = elements.firstName.value;
+            const lastName = elements.lastName.value;
+            const phone = elements.phoneNumber.value;
+            const country = elements.country.value;
+            
+            // Update user data
+            gameData.currentUser.name = `${firstName} ${lastName}`.trim();
+            gameData.currentUser.phone = phone;
+            gameData.currentUser.country = country;
+            
+            // Save to local storage
+            localStorage.setItem('currentUser', JSON.stringify(gameData.currentUser));
+            
+            // Update UI
+            updateUserUI();
+            showNotification('Profile updated successfully', 'success');
+        }
+        
+        // Update password
+        function updatePassword() {
+            if (!gameData.currentUser) return;
+            
+            const currentPassword = elements.currentPassword.value;
+            const newPassword = elements.newPassword.value;
+            const confirmPassword = elements.confirmPassword.value;
+            
+            if (currentPassword !== gameData.currentUser.password) {
+                showNotification('Current password is incorrect', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+            
+            // Update password
+            gameData.currentUser.password = newPassword;
+            
+            // Update in users array
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(u => u.id === gameData.currentUser.id);
+            
+            if (userIndex !== -1) {
+                users[userIndex] = gameData.currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Save current user
+            localStorage.setItem('currentUser', JSON.stringify(gameData.currentUser));
+            
+            // Clear form
+            elements.currentPassword.value = '';
+            elements.newPassword.value = '';
+            elements.confirmPassword.value = '';
+            
+            showNotification('Password changed successfully', 'success');
+        }
+        
+        // Handle avatar upload
+        function handleAvatarUpload(e) {
+            if (!gameData.currentUser) return;
+            
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showNotification('Please select an image file', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                gameData.currentUser.avatar = event.target.result;
+                localStorage.setItem('currentUser', JSON.stringify(gameData.currentUser));
+                
+                // Update UI
+                elements.userAvatar.src = event.target.result;
+                elements.profileAvatar.src = event.target.result;
+                
+                showNotification('Avatar updated successfully', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Update betting history
+        function updateBettingHistory() {
+            elements.bettingHistory.innerHTML = '';
+            
+            gameData.bettingHistory.forEach(bet => {
+                const row = document.createElement('tr');
+                row.className = 'transaction-item';
+                
+                const date = new Date(bet.date);
+                const dateStr = date.toLocaleDateString();
+                const timeStr = date.toLocaleTimeString();
+                
+                row.innerHTML = `
+                    <td>${dateStr} ${timeStr}</td>
+                    <td>${bet.game}</td>
+                    <td class="capitalize">
+                        ${bet.type === 'number' ? 'Number ' : ''}
+                        ${bet.prediction}
+                        ${bet.type === 'bigsmall' ? '' : ''}
+                    </td>
+                    <td>$${bet.amount.toFixed(2)}</td>
+                    <td>X${bet.multiplier}</td>
+                    <td class="${bet.status === 'win' ? 'win' : 'lose'} capitalize">
+                        ${bet.status}
+                    </td>
+                    <td class="${bet.status === 'win' ? 'win' : ''}">
+                        ${bet.status === 'win' ? '+$' + bet.payout.toFixed(2) : '-'}
+                    </td>
+                `;
+                
+                elements.bettingHistory.appendChild(row);
+            });
+        }
+        
+        // Filter betting history
+        function filterBettingHistory() {
+            const searchTerm = elements.historySearch.value.toLowerCase();
+            const filter = elements.historyFilter.value;
+            
+            const rows = elements.bettingHistory.querySelectorAll('tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const game = cells[1].textContent.toLowerCase();
+                const prediction = cells[2].textContent.toLowerCase();
+                const status = cells[5].textContent.toLowerCase();
+                const type = prediction.includes('number') ? 'number' : 
+                              prediction.includes('big') || prediction.includes('small') ? 'bigsmall' : 'color';
+                
+                const matchesSearch = game.includes(searchTerm) || prediction.includes(searchTerm);
+                const matchesFilter = filter === 'all' || 
+                                     (filter === 'win' && status === 'win') ||
+                                     (filter === 'lose' && status === 'lose') ||
+                                     (filter === type);
+                
+                row.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
+            });
+        }
+        
+        // Show notification
         function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.className = `fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg transform translate-y-0 opacity-100 transition-all duration-300 z-50 flex items-center ${
-                type === 'success' ? 'bg-green-600' : 'bg-red-600'
-            }`;
-                        
-            document.getElementById('notification-message').textContent = message;
-                        
+            elements.notification.textContent = message;
+            elements.notification.className = `notification ${type} show`;
+            
             setTimeout(() => {
-                notification.classList.remove('translate-y-0', 'opacity-100');
-                notification.classList.add('translate-y-10', 'opacity-0');
+                elements.notification.classList.remove('show');
             }, 3000);
         }
+        
+        // Initialize the game when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initGame);
 
-        // Countdown timer
-        function updateCountdown() {
-            const countdownElement = document.querySelector('.countdown');
-            let seconds = 45;
-                        
-            const timer = setInterval(() => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                                
-                countdownElement.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                                
-                if (seconds <= 10) {
-                    countdownElement.classList.remove('text-yellow-400');
-                    countdownElement.classList.add('text-red-400');
+        // Initialize the game
+        function initGame() {
+            // Check if user is logged in
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                try {
+                    gameData.currentUser = JSON.parse(storedUser);
+                    if (gameData.currentUser && gameData.currentUser.email) {
+                        updateUserUI();
+                    } else {
+                        localStorage.removeItem('currentUser');
+                    }
+                } catch (e) {
+                    localStorage.removeItem('currentUser');
                 }
-                                
-                if (seconds === 0) {
-                    clearInterval(timer);
-                    countdownElement.textContent = '00:00';
-                    setTimeout(() => {
-                        countdownElement.textContent = '03:00';
-                        countdownElement.classList.remove('text-red-400');
-                        countdownElement.classList.add('text-yellow-400');
-                        updateCountdown(); // Restart countdown
-                    }, 2000);
-                }
-                                
-                seconds--;
-            }, 1000);
+            }
+            
+            // Generate initial game data
+            generateInitialData();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Start the game timer
+            startGameTimer();
+            
+            // Show home page by default
+            showPage('home');
         }
+
+        // Handle login with proper validation
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            try {
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(u => u.email === email);
                 
-        // Start countdown
-        updateCountdown();
+                if (!user) {
+                    showNotification('User not found. Please register.', 'error');
+                    return;
+                }
+                
+                if (user.password !== password) {
+                    showNotification('Incorrect password', 'error');
+                    return;
+                }
+                
+                // Login successful
+                gameData.currentUser = user;
+                gameData.balance = user.balance || 0;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                updateUserUI();
+                hideAuthModal();
+                showNotification('Login successful!', 'success');
+                
+                // Clear form
+                document.getElementById('login-email').value = '';
+                document.getElementById('login-password').value = '';
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification('An error occurred during login', 'error');
+            }
+        }
+
+        // Handle registration with proper validation
+        function handleRegister() {
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            try {
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                // Check if email already exists
+                if (users.some(u => u.email === email)) {
+                    showNotification('Email already registered', 'error');
+                    return;
+                }
+                
+                // Create new user
+                const newUser = {
+                    id: Date.now(),
+                    name,
+                    email,
+                    password,
+                    balance: 1000, // Starting balance
+                    avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random',
+                    joined: new Date().toISOString(),
+                    phone: '',
+                    country: ''
+                };
+                
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Login the new user
+                gameData.currentUser = newUser;
+                gameData.balance = newUser.balance;
+                localStorage.setItem('currentUser', JSON.stringify(newUser));
+                
+                updateUserUI();
+                hideAuthModal();
+                showNotification('Registration successful!', 'success');
+                
+                // Clear form
+                document.getElementById('register-name').value = '';
+                document.getElementById('register-email').value = '';
+                document.getElementById('register-password').value = '';
+                document.getElementById('register-confirm-password').value = '';
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification('An error occurred during registration', 'error');
+            }
+        }
+
+        // Email validation helper
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Previous remaining functions remain the same
+   
     </script>
 </body>
 </html>
